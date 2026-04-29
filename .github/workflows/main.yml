@@ -1,0 +1,29 @@
+name: Java CI amb Maven
+
+# 1. Quan s'executa? (Esdeveniment)
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+# 2. Què ha de fer? (Jobs)
+jobs:
+  build:
+    # On s'executa? (Runner)
+    runs-on: ubuntu-latest
+
+    # Passos concrets del job
+    steps:
+    - name: Baixant el codi del repositori
+      uses: actions/checkout@v4
+
+    - name: Configurant el Java JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+
+    - name: Compilant i passant tests amb Maven
+      run: mvn -B test
